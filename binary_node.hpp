@@ -1,4 +1,6 @@
-/* Template class representing a node that can have (at most) two children. */
+/* Template class representing a node that can have (at most) two children. 
+ *
+ * Note that we use static polymorphism for better execution speed. */
 
 #ifndef BINARY_NODE_HPP
 #define BINARY_NODE_HPP
@@ -40,7 +42,6 @@ public:
 	// pointer to the root of the left branch
 	pointer_type left() const
 	{
-		//return static_cast<pointer_type>(_node.child<0>()); //
 		return reinterpret_cast<pointer_type>(_node.child<0>());
 	}
 	// pointer to the root of the right branch
@@ -56,7 +57,7 @@ public:
 	// set the right node
 	void set_right(pointer_type node)
 	{
-		_node.set<1>(node);
+		_node.set<1>(reinterpret_cast<typename compose_t::pointer_type>(node));
 	}
 
 	// const dereference operator, 
@@ -76,9 +77,6 @@ public:
 private:
 	// compose with Nary_name
 	compose_t _node;
-	// explicit conversion
-	explicit binary_node(compose_t node) : _node(node)
-	{}
 };
 
 }	// namespace tree
