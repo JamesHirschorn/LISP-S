@@ -2,8 +2,8 @@
  *
  * The "mechanical" part of the program is delegated here. */
 
-#ifndef NARYNODE_HPP
-#define NARYNODE_HPP
+#ifndef NARY_NODE_HPP
+#define NARY_NODE_HPP
 
 #include <memory>
 
@@ -15,12 +15,13 @@ class Nary_node
 public:
 	typedef Nary_node* pointer_type;
 
-	// ctors
+	// default ctor
 	Nary_node() 
 	{
 		initialize();
 	}
-	Nary_node(DataType data)
+	// explicit conversion ctor
+	explicit Nary_node(DataType data)
 		: _data(data)
 	{
 		initialize();
@@ -29,6 +30,8 @@ public:
 	// whether the i-th child node exists
 	template<int i>
 	bool has_child() const;
+	// whether this is a leaf node
+	bool is_leaf() const;
 
 	// pointer to the i-th child node
 	template<int i>
@@ -43,18 +46,16 @@ public:
 	{
 		return _data;
 	}
-	//DataType operator*() const
-	//{
-	//	return _data;
-	//}
-	//DataType& operator*()
-	//{
-	//	return _data;
-	//}
+	// non-const dereference operator,
+	// e.g. for pointer_type p, we can do: *p = d; where typeof(d) is DataType
+	Nary_node& operator=(DataType data)
+	{
+		_data = data;
+		return *this;
+	}
 private:
 	DataType _data;
-	std::shared_ptr<DataType> _child[N];
-	bool _empty[N];
+	std::shared_ptr<Nary_node> _child[N];
 	void initialize();
 	// compile-time check that the index i is in range
 	template<int i>
@@ -66,7 +67,7 @@ template<int i>
 typename Nary_node<T, N>::pointer_type 
 Nary_node<T, N>::child() const
 {
-	assert_in_range<i>;
+	static assert_in_range<i> a;
 
 	return _child[i].get();
 }
@@ -75,6 +76,8 @@ template<typename T, int N>
 template<int i>
 void Nary_node<T, N>::set(pointer_type node)
 {
+	static assert_in_range<i> a;
+
 	_child[i].reset(node);
 }
 
@@ -82,18 +85,27 @@ template<typename T, int N>
 template<int i>
 bool Nary_node<T, N>::has_child() const
 {
-	assert_in_range<i>;
+	static assert_in_range<i> a;
 	
 	return child<i>() != nullptr;
 }
 
+template<typename T, int N>
+bool Nary_node<T, N>::is_leaf() const
+{	
+	for (int i = 0; i < N; ++i)
+		if (_child[i] != nullptr)
+			return false;
+
+	return true;
+}
+
 /* private member definitions */
 
+// For future use.
 template<typename T, int N>
 void Nary_node<T, N>::initialize()
 {
-	for (int i = 0; i < N; ++i)
-		_exists[i] = false;
 }
 
 template<typename T, int N>
