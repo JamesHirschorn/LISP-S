@@ -14,36 +14,37 @@ class tree
 {
 public:
 	typedef NodeType node_type;
+	typedef typename node_type::pointer_type pointer_type;
 
 	// default ctor
 	tree() 
 	{}
 	// explicit conversion ctor
-	explicit tree(typename node_type::pointer_type node_ptr);
+	explicit tree(pointer_type node_ptr);
 
 	// root inspector
-	typename node_type::pointer_type root() const;
+	:pointer_type root() const;
 	// root setter
-	void set_root(typename node_type::pointer_type node_ptr);
+	void set_root(pointer_type node_ptr);
 private:
 	std::shared_ptr<node_type> _root;
 };
 
 template<typename NodeType>
-tree<NodeType>::tree(typename node_type::pointer_type node_ptr)
+tree<NodeType>::tree(pointer_type node_ptr)
 	: _root(node_ptr)
 {
 }
 
 template<typename NodeType>
-typename tree<NodeType>::node_type::pointer_type
+typename tree<NodeType>::pointer_type
 tree<NodeType>::root() const
 {
 	return _root.get();
 }
 
 template<typename NodeType>
-void tree<NodeType>::set_root(typename node_type::pointer_type node_ptr)
+void tree<NodeType>::set_root(pointer_type node_ptr)
 {
 	_root.reset(node_ptr);
 }
