@@ -1,3 +1,6 @@
+#include <iostream>
+
+#include "parser/parser.hpp"
 #include "tree/Nary_node.hpp"
 #include "tree/binary_node.hpp"
 #include "tree/tree.hpp"
@@ -33,4 +36,7 @@ int main(int argc, char** argv)
 	value = *bNode.left();
 
 	binary_tree<int> bt;
+
+	parser::binary_tree_summing_parser p(std::cin);
+	std::cout << p.getInteger('\n') << std::endl;
 }

@@ -8,10 +8,16 @@
     <Filter Include="tree">
       <UniqueIdentifier>{7647eaa4-c3d6-42fc-9f0c-00791d7f3b5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="parser">
+      <UniqueIdentifier>{82eec65d-e3ce-4345-8cb3-f2d9901dc59f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\TreeSumming.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\parser\parser.cpp">
+      <Filter>parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -23,6 +29,9 @@
     </ClInclude>
     <ClInclude Include="..\..\tree\tree.hpp">
       <Filter>tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\parser\parser.hpp">
+      <Filter>parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
