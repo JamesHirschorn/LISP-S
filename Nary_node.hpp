@@ -1,6 +1,7 @@
 /* Template class representing a node that can have (at most) N children. 
  *
- * The "mechanical" part of the program is delegated here. */
+ * This is intended for use as a base class for specialized node types. 
+ * The "mechanical" parts are delegated here. */
 
 #ifndef NARY_NODE_HPP
 #define NARY_NODE_HPP

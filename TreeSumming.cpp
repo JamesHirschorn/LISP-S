@@ -1,5 +1,6 @@
 #include "Nary_node.hpp"
 #include "binary_node.hpp"
+#include "tree.hpp"
 
 int main(int argc, char** argv)
 {
@@ -30,4 +31,6 @@ int main(int argc, char** argv)
 
 	*bNode.left() = 7;
 	value = *bNode.left();
+
+	binary_tree bt;
 }

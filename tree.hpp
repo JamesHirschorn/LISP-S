@@ -1,45 +1,60 @@
-#include <memory>
+/* Trees and functions on trees. */
 
-/* Represents a node that can have (at most) N children. */
+#ifndef TREES_HPP
+#define TREES_HPP
+
+#include "Nary_node.hpp"
+#include "binary_node.hpp"
+
+namespace tree {
+
+/* N-ary tree with N fixed */
 template<typename DataType, int N>
-class Nary_node
+class Nary_tree
 {
 public:
-	typedef std::shared_ptr<DataType> pointer_type;
+	typedef Nary_node<DataType, N> node_type;
 
-	// has a left branch (i.e. child node)
-	template<int i>
-	bool has_child() const;
-	// has a right branch
-	bool has_right_branch() const;
-	// is a leaf
-	bool is_leaf() const
-	{
-		return ( !has_left_branch() ) && ( !has_right_branch() );
-	}
+	// default ctor
+	Nary_tree() 
+	{}
+	// explicit conversion ctor
+	explicit Nary_tree(typename node_type::pointer_type node_ptr);
+
+	// root inspector
+	typename node_type::pointer_type root() const;
+	// root setter
+	void set_root(typename node_type::pointer_type node_ptr);
 private:
-	pointer_type[N] _child;
+	std::shared_ptr<node_type> _root;
 };
 
+template<typename T, int N>
+Nary_tree<T, N>::Nary_tree(typename node_type::pointer_type node_ptr)
+	: _root(node_ptr)
+{
+}
+
+template<typename T, int N>
+typename Nary_tree<T, N>::node_type::pointer_type
+Nary_tree<T, N>::root() const
+{
+	return _root.get();
+}
+
+template<typename T, int N>
+void Nary_tree<T, N>::set_root(typename node_type::pointer_type node_ptr)
+{
+	_root.reset(node_ptr);
+}
+
+/* Binary tree */
 template<typename DataType>
-class BinaryNode
+class binary_tree
+	: public Nary_tree<DataType, 2>
 {
-public:
-	typedef std::shared_ptr<DataType> pointer_type;
-
-	// has a left branch (i.e. child node)
-	bool has_left_branch() const;
-	// has a right branch
-	bool has_right_branch() const;
-	// is a leaf
-	bool is_leaf() const
-	{
-		return ( !has_left_branch() ) && ( !has_right_branch() );
-	}
-private:
-	pointer_type left;
-	pointer_type right;
 };
 
-template<typename T>
-BinaryNode::has_left_branch()
+}	// namespace tree
+
+#endif
