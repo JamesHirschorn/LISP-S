@@ -64,12 +64,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\binary_node.hpp" />
-    <ClInclude Include="..\..\Nary_node.hpp" />
-    <ClInclude Include="..\..\tree.hpp" />
+    <ClCompile Include="..\..\TreeSumming.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\TreeSumming.cpp" />
+    <ClInclude Include="..\..\tree\binary_node.hpp" />
+    <ClInclude Include="..\..\tree\Nary_node.hpp" />
+    <ClInclude Include="..\..\tree\tree.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

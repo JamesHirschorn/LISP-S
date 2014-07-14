@@ -8,18 +8,18 @@
 
 namespace tree {
 
-/* N-ary tree with N fixed */
-template<typename DataType, int N>
-class Nary_tree
+/* NodeType must be compatible with Nary_node<T, N> for some N. */
+template<typename NodeType>
+class tree
 {
 public:
-	typedef Nary_node<DataType, N> node_type;
+	typedef NodeType node_type;
 
 	// default ctor
-	Nary_tree() 
+	tree() 
 	{}
 	// explicit conversion ctor
-	explicit Nary_tree(typename node_type::pointer_type node_ptr);
+	explicit tree(typename node_type::pointer_type node_ptr);
 
 	// root inspector
 	typename node_type::pointer_type root() const;
@@ -29,21 +29,21 @@ private:
 	std::shared_ptr<node_type> _root;
 };
 
-template<typename T, int N>
-Nary_tree<T, N>::Nary_tree(typename node_type::pointer_type node_ptr)
+template<typename NodeType>
+tree<NodeType>::tree(typename node_type::pointer_type node_ptr)
 	: _root(node_ptr)
 {
 }
 
-template<typename T, int N>
-typename Nary_tree<T, N>::node_type::pointer_type
-Nary_tree<T, N>::root() const
+template<typename NodeType>
+typename tree<NodeType>::node_type::pointer_type
+tree<NodeType>::root() const
 {
 	return _root.get();
 }
 
-template<typename T, int N>
-void Nary_tree<T, N>::set_root(typename node_type::pointer_type node_ptr)
+template<typename NodeType>
+void tree<NodeType>::set_root(typename node_type::pointer_type node_ptr)
 {
 	_root.reset(node_ptr);
 }
@@ -51,9 +51,13 @@ void Nary_tree<T, N>::set_root(typename node_type::pointer_type node_ptr)
 /* Binary tree */
 template<typename DataType>
 class binary_tree
-	: public Nary_tree<DataType, 2>
+	: public tree<Nary_node<DataType, 2>>
 {
 };
+
+/* Functions on trees */
+
+
 
 }	// namespace tree
 
