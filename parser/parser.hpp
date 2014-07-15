@@ -27,7 +27,7 @@ bool isnumeral(int c)
 
 bool isspace(int c)
 {
-    return std::isspace(c);
+    return std::isspace(c) != 0;
 }
 
 // Gets an integer from the stream, by reading up to the delimiter.
