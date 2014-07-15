@@ -122,11 +122,17 @@ getInteger(
 	// Read up to but not including the delimiter.
 	input.get(integer_buffer, buffer_size - 1, delim);
 
-	// The input should only include white-space and numerals.
+	// The input should only include white-space, numerals and the minus sign.
 	std::string str(integer_buffer);
+	// flag indicated whether a non-whitespace character has been read yet.
+	bool read_nw = false;	
+
 	for (auto c : str)
-		if (!isnumeral(c) && !std::isspace(c))
+	{
+		if ( !isnumeral(c) && !std::isspace(c) && !(!read_nw && c == '-') )
 			throw std::exception(error_message);
+		read_nw |= !std::isspace(c);
+	}
 
 	// Convert the buffer to a long long.
 	std::istringstream istr(integer_buffer);
@@ -213,6 +219,12 @@ getBinaryTree(
 		integer_buffer, buffer_size, error_message);
 	if (!right_tree.is_empty())
 		t.root() -> set_right(right_tree.root());
+
+	// If there is still more non-whitespace after the right tree,
+	// then the input is invalid.
+	while (istr.get(c))
+		if (!std::isspace(c))
+			throw std::exception(error_message);
 
 	return t;
 }
