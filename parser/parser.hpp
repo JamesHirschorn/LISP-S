@@ -128,10 +128,6 @@ getInteger(
 		if (!isnumeral(c) && !std::isspace(c))
 			throw std::exception(error_message);
 
-	// Make sure the input stream is still in a good state.
-	if (!input)
-		throw std::exception(error_message);
-
 	// Convert the buffer to a long long.
 	std::istringstream istr(integer_buffer);
 

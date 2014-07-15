@@ -118,18 +118,20 @@ has_branch_sum(Nary_tree<NodeType> const& T, typename NodeType::data_type sum)
 
 	if (T.is_empty())
 		return false;
+	
+	typename tree_type::pointer_type root = T.root();
 
 	// branch of length 1
-	if (T.root() -> is_leaf())
-		return *T.root() == sum;
+	if (root -> is_leaf())
+		return *root == sum;
 
 	for (int i = 0; i < tree_type::arity; ++i)
 	{
-		if (T.root() -> has_child(i))
+		if (root -> has_child(i))
 		{
 			// the i-th subtree
-			tree_type subtree(static_pointer_cast<NodeType>(root -> child(i)));
-			if (has_branch_sum(subtree, sum - *T.root()))
+			tree_type subtree( static_pointer_cast<NodeType>(root -> child(i)) );
+			if (has_branch_sum(subtree, sum - *root))
 				return true;
 		}
 	}
