@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 	parser::binary_tree_summing_parser<int> p(std::cin, '(', ')');
 
 	// Read in one tree at a time until we use up the input.
-	while (p.input_available())
+	while (true)
 	{
 		// Try to parse the tree. An exception will be thrown
 		// if the data is invalid.
@@ -27,11 +27,17 @@ int main(int argc, char** argv)
 			exit(EXIT_FAILURE);
 		}
 
-		// Check if the tree that was just read in has a branch whose members
-		// add up to sum.
-		bool has_path_with_sum = has_branch_sum(p.last_tree(), p.last_sum());
+		// If input was not available for the last parse, then quit.
+		if (p.input_was_available())
+		{
+			// Check if the tree that was just read in has a branch whose members
+			// add up to sum.
+			bool has_path_with_sum = has_branch_sum(p.last_tree(), p.last_sum());
 
-		// Output the result
-		std::cout << (has_path_with_sum ? "yes" : "no") << std::endl;
+			// Output the result
+			std::cout << (has_path_with_sum ? "yes" : "no") << std::endl;
+		}
+		else
+			break;
 	}
 }

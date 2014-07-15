@@ -34,8 +34,8 @@ public:
 	binary_tree_summing_parser(std::istream& is, int left_delim, int right_delim,
 		std::size_t integer_buffer_size = 80);
 
-	// whether there is any input on the input stream
-	bool input_available() const;
+	// whether there was input available for the last parse_tree calls (see below)
+	bool input_was_available() const;
 
 	// Parse one tree from the input stream.
 	// An exception is thrown if the input does not contain a valid sum/tree pair.
@@ -75,7 +75,7 @@ binary_tree_summing_parser<I>::binary_tree_summing_parser(
 
 template<typename I>
 bool
-binary_tree_summing_parser<I>::input_available() const
+binary_tree_summing_parser<I>::input_was_available() const
 {
 	return _is.good();
 }
