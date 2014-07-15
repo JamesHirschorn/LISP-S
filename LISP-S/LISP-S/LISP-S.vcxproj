@@ -64,13 +64,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\parser\parser.cpp" />
     <ClCompile Include="..\..\TreeSumming.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\parser\parser.hpp" />
     <ClInclude Include="..\..\tree\binary_node.hpp" />
     <ClInclude Include="..\..\tree\Nary_node.hpp" />
+    <ClInclude Include="..\..\tree\Nary_node_pointer.hpp" />
     <ClInclude Include="..\..\tree\tree.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,28 +1,37 @@
 /* Template class representing a node that can have (at most) N children. 
  *
- * This is intended for use as a base class for specialized node types. 
- * The "mechanical" parts are delegated here. */
+ * This is intended for use as a base class with static polymorphism, for 
+ * specialized node types (e.g. binary nodes). The "mechanical" parts are 
+ * delegated here (and in Nary_node_pointer.hpp as well). 
+ */
 
 #ifndef NARY_NODE_HPP
 #define NARY_NODE_HPP
 
-#include <memory>
+#include <cassert>
+
+#include "Nary_node_pointer.hpp"
 
 namespace tree {
+
+/** Nary-node */
 
 template<typename DataType, int N>
 class Nary_node
 {
 public:
-	typedef Nary_node* pointer_type;
+	typedef DataType				data_type;
+	typedef node_pointer<Nary_node> pointer_type;
+	static int const arity = N;
 
+	// represents a pointer to a node
 	// default ctor
 	Nary_node() 
 	{
 		initialize();
 	}
 	// explicit conversion ctor
-	explicit Nary_node(DataType data)
+	explicit Nary_node(data_type data)
 		: _data(data)
 	{
 		initialize();
@@ -31,37 +40,47 @@ public:
 	// whether the i-th child node exists
 	template<int i>
 	bool has_child() const;
+	// non-generic version (less efficient)
+	bool has_child(int i) const;
+
 	// whether this is a leaf node
 	bool is_leaf() const;
 
 	// pointer to the i-th child node
 	template<int i>
 	pointer_type child() const;
+	// non-generic version (less efficient)
+	pointer_type child(int i) const;
+
 	// set the i-th child node
 	template<int i>
 	void set(pointer_type child);
+	// non-generic version (less efficient)
+	void set(int i, pointer_type child);
 
 	// const dereference operator, 
-	// e.g. for pointer_type p, we can do: DataType x = *p;
-	operator DataType() const
+	// e.g. for pointer_type p, we can do: data_type x = *p;
+	operator data_type() const
 	{
 		return _data;
 	}
 	// non-const dereference operator,
-	// e.g. for pointer_type p, we can do: *p = d; where typeof(d) is DataType
-	Nary_node& operator=(DataType data)
+	// e.g. for pointer_type p, we can do: *p = d; where typeof(d) is data_type
+	Nary_node& operator=(data_type data)
 	{
 		_data = data;
 		return *this;
 	}
 private:
-	DataType _data;
-	std::shared_ptr<Nary_node> _child[N];
+	data_type _data;
+	pointer_type _child[N];
 	void initialize();
 	// compile-time check that the index i is in range
 	template<int i>
 	struct assert_in_range;
 };
+
+/* member definitions */
 
 template<typename T, int N>
 template<int i>
@@ -70,7 +89,16 @@ Nary_node<T, N>::child() const
 {
 	static assert_in_range<i> a;
 
-	return _child[i].get();
+	return _child[i];
+}
+
+template<typename T, int N>
+typename Nary_node<T, N>::pointer_type 
+Nary_node<T, N>::child(int i) const
+{
+	assert(i < N);
+
+	return _child[i];
 }
 
 template<typename T, int N>
@@ -79,7 +107,7 @@ void Nary_node<T, N>::set(pointer_type node)
 {
 	static assert_in_range<i> a;
 
-	_child[i].reset(node);
+	_child[i] = node;
 }
 
 template<typename T, int N>
@@ -89,6 +117,14 @@ bool Nary_node<T, N>::has_child() const
 	static assert_in_range<i> a;
 	
 	return child<i>() != nullptr;
+}
+
+template<typename T, int N>
+bool Nary_node<T, N>::has_child(int i) const
+{
+	assert(i < N);
+	
+	return child(i) != nullptr;
 }
 
 template<typename T, int N>

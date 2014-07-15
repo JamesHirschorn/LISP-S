@@ -16,9 +16,6 @@
     <ClCompile Include="..\..\TreeSumming.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\parser\parser.cpp">
-      <Filter>parser</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tree\binary_node.hpp">
@@ -32,6 +29,9 @@
     </ClInclude>
     <ClInclude Include="..\..\parser\parser.hpp">
       <Filter>parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tree\Nary_node_pointer.hpp">
+      <Filter>tree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

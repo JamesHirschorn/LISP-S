@@ -34,7 +34,7 @@ public:
 	// whether this is an empty tree
 	bool is_empty() const;
 private:
-	std::shared_ptr<node_type> _root;
+	pointer_type _root;
 };
 
 template<typename NodeType>
@@ -47,19 +47,19 @@ template<typename NodeType>
 typename Nary_tree<NodeType>::pointer_type
 Nary_tree<NodeType>::root() const
 {
-	return _root.get();
+	return _root;
 }
 
 template<typename NodeType>
 void Nary_tree<NodeType>::set_root(pointer_type node_ptr)
 {
-	_root.reset(node_ptr);
+	_root = node_ptr;
 }
 
 template<typename NodeType>
 bool Nary_tree<NodeType>::is_empty() const
 {
-	return _root.is_leaf();
+	return _root == nullptr;
 }
 
 /* Binary tree */
@@ -84,25 +84,18 @@ std::ostream& operator<<(std::ostream& os, Nary_tree<NodeType> const& T)
 
 	typename tree_type::pointer_type root = T.root();
 
-	os << root << ", ";
+	os << *root << ", ";
 	for (int i = 0; i < tree_type::arity; ++i)
-		os << root -> child(i) << " ";
+	{
+		if (root -> has_child(i))
+			os << *(root -> child(i));
+		else
+			os << "null";
+		os << " ";
+	}
 
 	os << std::endl;
 
-	return os;
-}
-
-// specialization
-template<typename DataType>
-std::ostream& operator<<(std::ostream& os, binary_tree<DataType> const& T)
-{
-	Nary_tree<Nary_node<DataType, 2>> T_as_Nary;
-	binary_node<DataType> no(*T.root());
-	static_cast<Nary_node<DataType, 2>>(no);
-	T_as_Nary.set_root(T.root());
-
-	os << T_as_Nary;
 	return os;
 }
 

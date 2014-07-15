@@ -37,6 +37,11 @@ int main(int argc, char** argv)
 
 	binary_tree<int> bt;
 
-	parser::binary_tree_summing_parser p(std::cin);
-	std::cout << p.getInteger('\n') << std::endl;
+	parser::binary_tree_summing_parser<int> p(std::cin, '(', ')');
+	p.parse_tree();
+
+	std::cout << p.last_tree() << std::endl;
+#if 0
+
+#endif
 }

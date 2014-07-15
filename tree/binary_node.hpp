@@ -10,18 +10,50 @@
 namespace tree {
 
 template<typename DataType>
+class binary_node;
+
+//namespace detail {
+//
+//// forward declaration
+//template<typename DataType>
+//struct binary_node_pointer
+//	: public node_pointer<binary_node<DataType>>
+//{
+//};
+//
+//}	// namespace detail
+
+template<typename DataType>
 class binary_node
-	: private Nary_node<DataType, 2>
+	: public Nary_node<DataType, 2>
 {
 	typedef Nary_node<DataType, 2> base_type;
 public:
-	typedef binary_node* pointer_type;
+	typedef typename base_type::data_type data_type;
+/*	struct pointer_type
+		: node_pointer<binary_node>
+	{
+	private:
+		typedef node_pointer<binary_node> base_type;
+	public:
+		pointer_type(binary_node* p)
+			: base_type(p)
+		{
+		}
+		pointer_type(typename binary_node::base_type::pointer_type ptr)
+			: base_type(ptr)
+		{
+//			_ptr = static_cast<std::shared_ptr<binary_node::base_type>>(ptr._ptr);
+		}
+	};*/
+	//typedef detail::binary_node_pointer<DataType> pointer_type;
+	typedef node_pointer<binary_node<DataType>> pointer_type;
 
 	// default ctor
 	binary_node() 
 	{}
 	// explicit conversion ctor
-	binary_node(DataType data)
+	binary_node(data_type data)
 		: base_type(data)
 	{}
 	
@@ -35,20 +67,20 @@ public:
 	{
 		return has_child<1>();
 	}
-	bool is_leaf() const
-	{
-		return is_leaf();
-	}
 
 	// pointer to the root of the left branch
 	pointer_type left() const
 	{
-		return static_cast<pointer_type>(child<0>());
+		//base_type::pointer_type p = child<0>();
+		
+		//pointer_type pt = p;
+
+		return static_pointer_cast<binary_node>(child<0>()); //static_cast<pointer_type>(child<0>());
 	}
 	// pointer to the root of the right branch
 	pointer_type right() const
 	{
-		return static_cast<pointer_type>(child<1>());
+		return static_pointer_cast<binary_node>(child<1>()); //static_cast<pointer_type>(child<1>());
 	}
 	// set the left node
 	void set_left(pointer_type node)
@@ -62,20 +94,37 @@ public:
 	}
 
 	// const dereference operator, 
-	// e.g. for pointer_type p, we can do: DataType x = *p;
-	operator DataType() const
-	{
-		return base_type::operator DataType();
-	}
+	// e.g. for pointer_type p, we can do: data_type x = *p;
+	//operator data_type() const
+	//{
+	//	return base_type::operator data_type();
+	//}
 	// non-const dereference operator,
-	// e.g. for pointer_type p, we can do: *p = d; where typeof(d) is DataType
-	binary_node& operator=(DataType data)
-	{
-		*static_cast<typename base_type::pointer_type>(this) = data;
+	// e.g. for pointer_type p, we can do: *p = d; where typeof(d) is data_type
+	//binary_node& operator=(data_type data)
+	//{
+	//	*static_cast<typename base_type::pointer_type>(this) = data;
 
-		return *this;
-	}
+	//	return *this;
+	//}
+
+	// conversion to Nary_node
+	//operator Nary_node<DataType, 2>() const
+	//{
+	//	return *this;
+	//}
 };
+
+//namespace detail {
+//
+//// forward declaration
+//template<typename DataType>
+//struct binary_node_pointer
+//	: node_pointer<binary_node<DataType>>
+//{
+//};
+//
+//}	// namespace detail
 
 }	// namespace tree
 
