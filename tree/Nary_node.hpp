@@ -1,8 +1,8 @@
 /* Template class representing a node that can have (at most) N children. 
  *
  * This is intended for use as a base class with static polymorphism, for 
- * specialized node types (e.g. binary nodes). The "mechanical" parts are 
- * delegated here (and in Nary_node_pointer.hpp as well). 
+ * specialized node types (e.g. binary nodes). The "mechanical" parts of the
+ * project are delegated here.  
  */
 
 #ifndef NARY_NODE_HPP
@@ -24,14 +24,13 @@ public:
 	typedef node_pointer<Nary_node> pointer_type;
 	static int const arity = N;
 
-	// represents a pointer to a node
 	// default ctor
 	Nary_node() 
 	{
 		initialize();
 	}
 	// explicit conversion ctor
-	explicit Nary_node(data_type data)
+	explicit Nary_node(data_type const& data)
 		: _data(data)
 	{
 		initialize();

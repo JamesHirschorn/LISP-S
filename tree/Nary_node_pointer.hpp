@@ -1,6 +1,8 @@
 /* Pointer class for Nary-nodes.
  *
  * This is designed for use with static polymorphism (for execution speed).
+ * The implementation is based on std::shared_ptr, so that all memory 
+ * management is automatic.
  */
 
 #ifndef NARY_NODE_POINTER_HPP
@@ -32,8 +34,8 @@ struct node_pointer
 	void reset(node_type* p);
 
 	// comparison operators
-	bool operator==(node_pointer other) const;
-	bool operator!=(node_pointer other) const;
+	bool operator==(node_pointer const& other) const;
+	bool operator!=(node_pointer const& other) const;
 
 	// dereference operators
 	typename node_type operator*() const;
@@ -75,14 +77,14 @@ node_pointer<N>::reset(N* p)
 
 template<typename N>
 bool 
-node_pointer<N>::operator==(node_pointer other) const
+node_pointer<N>::operator==(node_pointer const& other) const
 {
 	return _ptr == other._ptr;
 }
 
 template<typename N>
 bool 
-node_pointer<N>::operator!=(node_pointer other) const
+node_pointer<N>::operator!=(node_pointer const& other) const
 {
 	return !(*this == other);
 }

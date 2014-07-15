@@ -1,12 +1,13 @@
 /* Class for parsing the input for tree summing. 
  * 
- * We only parse binary trees for now, but this can obviously be extended to arbitrary trees. */
+ * We only parse binary trees for now, but this can obviously be extended to Nary-trees. */
 
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
 #include <algorithm>
 #include <cctype>
+#include <functional>
 #include <istream>
 #include <memory>
 #include <sstream>
@@ -16,6 +17,8 @@
 #include "tree/tree.hpp"
 
 namespace parser {
+
+/** parser class for summing binary trees */
 
 template<typename IntType>
 class binary_tree_summing_parser
@@ -64,7 +67,7 @@ binary_tree_summing_parser<I>::binary_tree_summing_parser(
 	std::size_t integer_buffer_size) 
 	:	_is(is), 
 		_left_delim(left_delim), _right_delim(right_delim),
-		// Note that the default deleter does not work with arrays.
+		// Note that the default deleter (when none is specified) does not work with arrays.
 		_integer_buffer(new char[integer_buffer_size], std::default_delete<char[]>()),
 		_integer_buffer_size(integer_buffer_size)
 {
@@ -74,7 +77,7 @@ template<typename I>
 bool
 binary_tree_summing_parser<I>::input_available() const
 {
-	return _is;
+	return _is.good();
 }
 
 template<typename I>
@@ -99,7 +102,12 @@ binary_tree_summing_parser<I>::parse_tree()
 template<typename I>
 char const binary_tree_summing_parser<I>::_error_message[] = "Bad tree input";
 
-/* parsing functions */
+/** parsing functions */
+
+bool isnumeral(int c)
+{
+	return '0' <= c && c <= '9';
+}
 
 // Gets an integer from the stream, by reading up to the delimiter.
 template<typename I>
@@ -113,6 +121,12 @@ getInteger(
 {
 	// Read up to but not including the delimiter.
 	input.get(integer_buffer, buffer_size - 1, delim);
+
+	// The input should only include white-space and numerals.
+	std::string str(integer_buffer);
+	for (auto c : str)
+		if (!isnumeral(c) && !std::isspace(c))
+			throw std::exception(error_message);
 
 	// Make sure the input stream is still in a good state.
 	if (!input)
@@ -164,12 +178,17 @@ getBinaryTree(
 		}
 		else
 		{
+			// If the first non-whitespace character is not the left delimiter, 
+			// then the input is invalid.
+			if (!read_left && !std::isspace(c))
+				throw std::exception(error_message);
+
 			saved_stream += c;
 		}
 	}
 	
-	// Check if the tree input is valid.
-	if (!read_left || count != 0)
+	// Check if the delimiters are balanced.
+	if (count != 0)
 		throw std::exception(error_message);
 
 	typedef typename binary_tree_summing_parser<I>::tree_type tree_type;

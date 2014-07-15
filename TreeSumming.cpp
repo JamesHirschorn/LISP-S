@@ -24,6 +24,7 @@ int main(int argc, char** argv)
 	//node.has_child<2>();
 
 	binary_node<int> bNode;
+	bNode = 12;
 
 	has_left = bNode.has_left_branch();
 	has_right = bNode.has_right_branch();
@@ -38,9 +39,22 @@ int main(int argc, char** argv)
 	binary_tree<int> bt;
 
 	parser::binary_tree_summing_parser<int> p(std::cin, '(', ')');
-	p.parse_tree();
 
-	std::cout << p.last_tree() << std::endl;
+	for (int i = 1; p.input_available(); ++i)
+	{
+		std::cout << "Tree " << i << ":\n\n";
+
+		try 
+		{
+			p.parse_tree();
+		}
+		catch (std::exception e)
+		{
+			std::cout << e.what();
+			exit(EXIT_FAILURE);
+		}
+		std::cout << p.last_tree() << std::endl << std::endl;
+	}
 #if 0
 
 #endif

@@ -25,20 +25,22 @@ public:
 	Nary_tree() 
 	{}
 	// explicit conversion ctor
-	explicit Nary_tree(pointer_type node_ptr);
+	explicit Nary_tree(pointer_type const& node_ptr);
 
 	// root inspector
 	pointer_type root() const;
 	// root setter
-	void set_root(pointer_type node_ptr);
+	void set_root(pointer_type const& node_ptr);
 	// whether this is an empty tree
 	bool is_empty() const;
 private:
 	pointer_type _root;
 };
 
+/* member definitions */
+
 template<typename NodeType>
-Nary_tree<NodeType>::Nary_tree(pointer_type node_ptr)
+Nary_tree<NodeType>::Nary_tree(pointer_type const& node_ptr)
 	: _root(node_ptr)
 {
 }
@@ -51,7 +53,7 @@ Nary_tree<NodeType>::root() const
 }
 
 template<typename NodeType>
-void Nary_tree<NodeType>::set_root(pointer_type node_ptr)
+void Nary_tree<NodeType>::set_root(pointer_type const& node_ptr)
 {
 	_root = node_ptr;
 }
@@ -91,10 +93,18 @@ std::ostream& operator<<(std::ostream& os, Nary_tree<NodeType> const& T)
 			os << *(root -> child(i));
 		else
 			os << "null";
+
 		os << " ";
 	}
 
-	os << std::endl;
+	for (int i = 0; i < tree_type::arity; ++i)
+	{
+		if (root -> has_child(i))
+		{
+			tree_type subtree(static_pointer_cast<NodeType>(root -> child(i)));
+			os << std::endl << subtree;
+		}
+	}
 
 	return os;
 }
