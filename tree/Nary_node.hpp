@@ -10,7 +10,7 @@
 
 #include <cassert>
 
-#include "Nary_node_pointer.hpp"
+#include <tree/Nary_node_pointer.hpp>
 
 namespace tree {
 

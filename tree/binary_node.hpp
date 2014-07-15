@@ -5,7 +5,7 @@
 #ifndef BINARY_NODE_HPP
 #define BINARY_NODE_HPP
 
-#include "Nary_node.hpp"
+#include <tree/Nary_node.hpp>
 
 namespace tree {
 
@@ -29,33 +29,33 @@ public:
 	// has a left branch 
 	bool has_left_branch() const
 	{
-		return has_child<0>();
+	    return this -> template has_child<0>();
 	}
 	// has a right branch
 	bool has_right_branch() const
 	{
-		return has_child<1>();
+	    return this -> template has_child<1>();
 	}
 
 	// pointer to the root of the left branch (i.e. the left child)
 	pointer_type left() const
 	{
-		return static_pointer_cast<binary_node>(child<0>()); 
+	    return static_pointer_cast<binary_node>(this -> template child<0>()); 
 	}
 	// pointer to the root of the right branch
 	pointer_type right() const
 	{
-		return static_pointer_cast<binary_node>(child<1>()); 
+	    return static_pointer_cast<binary_node>(this -> template child<1>()); 
 	}
 	// set the left node
 	void set_left(pointer_type node)
 	{
-		set<0>(node); 
+	    this -> template set<0>(node); 
 	}
 	// set the right node
 	void set_right(pointer_type node)
 	{
-		set<1>(node);
+	    this -> template set<1>(node); 
 	}
 
 	// Note: default assignment operator hides base_type::operator=.

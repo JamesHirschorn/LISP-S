@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "parser/parser.hpp"
-#include "tree/Nary_node.hpp"
-#include "tree/binary_node.hpp"
-#include "tree/tree.hpp"
+#include <parser/parser.hpp>
+#include <tree/Nary_node.hpp>
+#include <tree/binary_node.hpp>
+#include <tree/tree.hpp>
 
 int main(int argc, char** argv)
 {
@@ -21,10 +21,10 @@ int main(int argc, char** argv)
 		{
 			p.parse_tree();
 		}
-		catch (std::exception e)
+		catch (std::exception const& e)
 		{
-			std::cout << e.what();
-			exit(EXIT_FAILURE);
+		    std::cerr << e.what() << std::endl;
+		    exit(EXIT_FAILURE);
 		}
 
 		// If input was not available for the last parse, then quit.

@@ -5,8 +5,8 @@
 
 #include <ostream>
 
-#include "Nary_node.hpp"
-#include "binary_node.hpp"
+#include <tree/Nary_node.hpp>
+#include <tree/binary_node.hpp>
 
 namespace tree {
 
@@ -84,8 +84,8 @@ binary_tree<DataType>::left_subtree() const
 {
 	binary_tree t;
 
-	if (!is_empty() && root() -> has_left_branch())
-		t.set_root(root() -> left());
+	if (!this -> is_empty() && this -> root() -> has_left_branch())
+		t.set_root(this -> root() -> left());
 
 	return t;
 }
@@ -96,8 +96,8 @@ binary_tree<DataType>::right_subtree() const
 {
 	binary_tree t;
 
-	if (!is_empty() && root() -> has_right_branch())
-		t.set_root(root() -> right());
+	if (!this -> is_empty() && this -> root() -> has_right_branch())
+		t.set_root(this -> root() -> right());
 
 	return t;
 }

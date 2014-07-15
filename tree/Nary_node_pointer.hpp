@@ -38,8 +38,8 @@ struct node_pointer
 	bool operator!=(node_pointer const& other) const;
 
 	// dereference operators
-	typename node_type operator*() const;
-	typename node_type& operator*();
+	node_type operator*() const;
+	node_type& operator*();
 
 	// member operators 
 	node_type const* operator->() const;
@@ -90,28 +90,28 @@ node_pointer<N>::operator!=(node_pointer const& other) const
 }
 
 template<typename N>
-typename N //::data_type 
+typename node_pointer<N>::node_type
 node_pointer<N>::operator*() const
 {
 	return *_ptr.get();
 }
 
 template<typename N>
-typename N& 
+typename node_pointer<N>::node_type& 
 node_pointer<N>::operator*()
 {
 	return *_ptr.get();
 }
 
 template<typename N>
-N const* 
+typename node_pointer<N>::node_type const* 
 node_pointer<N>::operator->() const
 {
 	return _ptr.get();
 }
 
 template<typename N>
-N* 
+typename node_pointer<N>::node_type* 
 node_pointer<N>::operator->()
 {
 	return _ptr.get();
@@ -127,7 +127,7 @@ static_pointer_cast(node_pointer<O> const& np)
 {
 	node_pointer<N> result;
 
-	result._ptr = std::static_pointer_cast<node_pointer<N>::node_type>(np._ptr);
+	result._ptr = std::static_pointer_cast<typename node_pointer<N>::node_type>(np._ptr);
 
 	return result;
 }
