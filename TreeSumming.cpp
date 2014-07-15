@@ -38,6 +38,8 @@ int main(int argc, char** argv)
 
 	binary_tree<int> bt;
 
+	auto left_subtree = bt.left_subtree();
+
 	parser::binary_tree_summing_parser<int> p(std::cin, '(', ')');
 
 	for (int i = 1; p.input_available(); ++i)

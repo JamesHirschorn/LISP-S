@@ -69,9 +69,73 @@ template<typename DataType>
 class binary_tree
 	: public Nary_tree<binary_node<DataType>>
 {
+public:
+	// Returns the left-subtree, or else an empty tree if there is none.
+	binary_tree left_subtree() const;
+	// Returns the right-subtree, or else an empty tree if there is none.
+	binary_tree right_subtree() const;
 };
 
+/* member definitions */
+
+template<typename DataType>
+binary_tree<DataType> 
+binary_tree<DataType>::left_subtree() const
+{
+	binary_tree t;
+
+	if (!is_empty() && root() -> has_left_branch())
+		t.set_root(root() -> left());
+
+	return t;
+}
+
+template<typename DataType>
+binary_tree<DataType> 
+binary_tree<DataType>::right_subtree() const
+{
+	binary_tree t;
+
+	if (!is_empty() && root() -> has_right_branch())
+		t.set_root(root() -> right());
+
+	return t;
+}
+
 /** Functions on trees */
+
+// Whether the tree T has a branch, i.e. a path starting at the root and
+// ending at a leaf node, whose elements add up to sum.
+// Thus this is always false for an empty tree.
+// Note data_type must support the + operator.
+template<typename NodeType>
+bool
+has_branch_sum(Nary_tree<NodeType> const& T, typename NodeType::data_type sum)
+{
+	typedef Nary_tree<NodeType> tree_type;
+
+	// The implementation is by the obvious recursion.
+
+	if (T.is_empty())
+		return false;
+
+	// branch of length 1
+	if (T.root() -> is_leaf())
+		return *T.root() == sum;
+
+	for (int i = 0; i < tree_type::arity; ++i)
+	{
+		if (T.root() -> has_child(i))
+		{
+			// the i-th subtree
+			tree_type subtree(static_pointer_cast<NodeType>(root -> child(i)));
+			if (has_branch_sum(subtree, sum - *T.root()))
+				return true;
+		}
+	}
+
+	return false;	// no suitable branch was found
+}
 
 // Writes the tree contents to the output, one node at a time,
 // according to the pre-order.
