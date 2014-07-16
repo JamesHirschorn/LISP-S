@@ -64,6 +64,13 @@ public:
 		base_type::operator=(data);
 		return *this;
 	}
+
+	/* hide the base members with return type base_type::pointer_type */
+	
+	pointer_type child(int i) const
+	{
+		return static_pointer_cast<binary_node>(base_type::child(i));
+	}
 };
 
 }	// namespace tree

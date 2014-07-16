@@ -130,7 +130,7 @@ has_branch_sum(Nary_tree<NodeType> const& T, typename NodeType::data_type sum)
 		if (root -> has_child(i))
 		{
 			// the i-th subtree
-			tree_type subtree( static_pointer_cast<NodeType>(root -> child(i)) );
+			tree_type subtree(root -> child(i));
 			if (has_branch_sum(subtree, sum - *root))
 				return true;
 		}
@@ -167,7 +167,7 @@ std::ostream& operator<<(std::ostream& os, Nary_tree<NodeType> const& T)
 	{
 		if (root -> has_child(i))
 		{
-			tree_type subtree(static_pointer_cast<NodeType>(root -> child(i)));
+			tree_type subtree(root -> child(i));
 			os << std::endl << subtree;
 		}
 	}
