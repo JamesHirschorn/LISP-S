@@ -45,7 +45,7 @@ getInteger(
 
 	// The input should only include white-space, numerals and the minus sign.
 	std::string str(integer_buffer);
-	// flag indicated whether a non-whitespace character has been read yet.
+	// flag indicating whether a non-whitespace character has been read yet.
 	bool read_nw = false;	
 
 	for (auto c : str)
@@ -55,7 +55,7 @@ getInteger(
 		read_nw |= !std::isspace(c);
 	}
 
-	// Convert the buffer to a long long.
+	// Convert the buffer to IntType.
 	std::istringstream istr(integer_buffer);
 
 	IntType result;

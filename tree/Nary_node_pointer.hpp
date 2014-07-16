@@ -22,7 +22,7 @@ struct node_pointer
 	node_pointer() {}
 	// Allows for implicit conversion from Nary_node*.
 	// This form is only intended to be used for RAII.
-	// e.g. node_pointer p(new Nary_node(10));
+	// e.g. node_pointer p(new node_type(10));
 	node_pointer(node_type* p);
 	
 	// conversion ctor
